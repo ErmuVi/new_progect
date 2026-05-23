@@ -1,0 +1,31 @@
+name: CI Code Quality
+
+# Робот будет запускаться при пушах и пулл-реквестах в ветку main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Скачиваем код вашего репозитория
+    - name: Check out repository code
+      uses: actions/checkout@v4
+
+    # 2. Подготавливаем Python
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    # 3. Устанавливаем линтер ruff
+    - name: Install Ruff
+      run: pip install ruff
+
+    # 4. Запускаем проверку всего репозитория (точка проверяет текущую папку)
+    - name: Run Ruff Linter
+      run: ruff check .
